@@ -18,3 +18,14 @@ app.listen(port,()=>{
 //routes
 const posts = require('./routes/api/posts')
 app.use('/api/posts', posts)
+
+//handle production
+if(process.env.NODE_ENV === 'production'){
+    //set static folder
+    app.use(express.static(__dirname + '/public/'))
+
+    //handle SPA
+    app.get(/.*/, (req,res) => {
+        res.sendfile(__dirname + '/public/index.html')
+    })
+}
